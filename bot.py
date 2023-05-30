@@ -7,16 +7,23 @@ from telegram import Bot
 TOKEN = os.environ['TOKEN']
 
 # Specify the allowed chat IDs of the desired group of users
-ALLOWED_CHAT_IDS = os.environ['ALLOWED_CHAT_IDS']  # Add the desired chat IDs here
+ALLOWED_CHAT_IDS = [os.environ['ALLOWED_CHAT_IDS']]  # Add the desired chat IDs here
 
 def start(update, context):
-    if update.message.chat_id not in ALLOWED_CHAT_IDS:
-        context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry, you are not authorized to use this bot.')
+    chat_id = str(update.message.chat_id)
+    str_allowed_chat_ids = ''.join(str(cid) for cid in ALLOWED_CHAT_IDS)
+    print(str_allowed_chat_ids)
+    if chat_id not in str_allowed_chat_ids:
+        context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry, you are not allowed to use this bot.')
         return
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Authorized')
+
 
 def process_file(update, context):
+    chat_id = str(update.message.chat_id)
+    str_allowed_chat_ids = ''.join(str(cid) for cid in ALLOWED_CHAT_IDS)
     # Check if the message is from an allowed chat ID
-    if update.message.chat_id not in ALLOWED_CHAT_IDS:
+    if update.message.chat_id not in str_allowed_chat_ids:
         context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry, you are not authorized to use this bot.')
         return
 
