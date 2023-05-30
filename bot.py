@@ -23,7 +23,7 @@ def process_file(update, context):
     chat_id = str(update.message.chat_id)
     str_allowed_chat_ids = ''.join(str(cid) for cid in ALLOWED_CHAT_IDS)
     # Check if the message is from an allowed chat ID
-    if update.message.chat_id not in str_allowed_chat_ids:
+    if chat_id not in str_allowed_chat_ids:
         context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry, you are not authorized to use this bot.')
         return
 
